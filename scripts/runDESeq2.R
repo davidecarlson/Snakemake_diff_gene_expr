@@ -23,8 +23,7 @@ k <- keys(txdb, keytype="TXNAME")
 tx2gene <- select(txdb, k, "GENEID", "TXNAME")
 
 # Read in sample-specific information from a previously generated table.  Currently must create this manually
-#samples <- read.table("samples.txt", header = T)
-samples <- read.table("samples_hosp.txt", header =T)
+samples <- read.table("samples.txt", header = T)
 #get list of salmon quant files and confirm they exist
 dir <- getwd()
 files <-file.path(indir, samples$Run, "quant.sf")
