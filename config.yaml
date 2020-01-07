@@ -1,0 +1,19 @@
+data:
+        "/location/of/RNA-seq/reads"
+results_loc:
+        "/location/to/save/results/"
+condition:
+        A:
+                A1,B2
+        B:
+                B1,B2
+threads:
+        "Number of threads to use"
+ref:
+  "/location/of/reference/genome/" # if using a decoy-aware transcriptome
+index:
+  "/location/of/salmon/index"
+gtf:
+  "/location/of/gtf/functional/annotations"
+gzipped_reads:
+  "True"

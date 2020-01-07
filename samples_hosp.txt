@@ -1,0 +1,5 @@
+Sample_name	Run	Condition
+SG-Duct3A	SG-Duct3A	Duct3
+SG-Duct3B	SG-Duct3B	Duct3
+SG-Tuft2A	SG-Tuft2A	Tuft2
+SG-Tuft2B	SG-Tuft2B	Tuft2
