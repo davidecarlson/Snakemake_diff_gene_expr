@@ -16,4 +16,4 @@ index:
 gtf:
   "/location/of/gtf/functional/annotations"
 gzipped_reads:
-  "True"
+  "True" #set to false if input fastq files are not gzipped

@@ -29,7 +29,7 @@
    
 ### USAGE
   * `conda activate snakemake_DGE`
-  * `snakemake --cores <# of threads> -s <path to snakefile>`
+  * `snakemake --cores <# of threads * # of processes to run currently> -s <path to snakefile>`
 
   *All output files and logs will be saved in the directory specificed in your config file*
     

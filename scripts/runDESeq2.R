@@ -31,7 +31,7 @@ names(files) <- paste0("sample_", samples$Run)
 all(file.exists(files))
 
 #get abundances for each sample
-txi <- tximport(files, type = "salmon", tx2gene = tx2gene)
+txi <- tximport(files, type = "salmon", tx2gene = tx2gene, ignoreAfterBar=TRUE)
 
 # prepare for DESeq2
 ddsTxi <- DESeqDataSetFromTximport(txi,colData = samples,design = ~ Condition) # This design should be modified as needed to fit different experimental setups
