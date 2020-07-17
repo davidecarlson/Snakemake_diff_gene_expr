@@ -12,8 +12,8 @@ args <- commandArgs(trailingOnly = TRUE)
 print(args)
 indir <- args[1]
 outdir <- args[2]
-conditions <- args[3]
-control <- args[4]
+#conditions <- args[3]
+control <- args[3]
 
 #Make a transcript database object use the gencode31 GTF file. You will need to update this for your GTF file
 txdb <- makeTxDbFromGFF("/datahome/snakemake_workflows/data/GTFs/mus_musculus/gencode.vM22.annotation.gtf", "gtf", "gencode31")
@@ -50,7 +50,7 @@ res <- results(ddsTxi)
 resOrdered <- res[order(res$pvalue),]
 
 #Shrink the log fold change values using apeglm
-resLFC <- lfcShrink(ddsTxi, coef=conditions, type="apeglm")
+resLFC <- lfcShrink(ddsTxi, coef=dds_names[2], type="apeglm")
 
 #generate plots
 pdf(file=paste(outdir,"deseq2_results.pdf",sep=""))

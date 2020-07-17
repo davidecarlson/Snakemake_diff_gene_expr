@@ -12,8 +12,8 @@ rule deseq2:
     params:
         indir=config['results_loc']+"/results/salmon",
         outdir=config['results_loc']+"/results/deseq2/",
-        conditions="Condition_Duct3_vs_Tuft2",
+       #conditions="Condition_Duct3_vs_Tuft2",
         control="Tuft2"
     priority:   0
     shell:
-        "echo {input.files} && Rscript {input.script} {params.indir} {params.outdir} {params.conditions} {params.control} 2> {log}"
+        "echo {input.files} && Rscript {input.script} {params.indir} {params.outdir} {params.control} 2> {log}"
