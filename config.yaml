@@ -4,9 +4,9 @@ results_loc:
         "/location/to/save/results/"
 condition:
         A:
-                A1,B2
+                A1,A2 # in this example A1 and A2 are biological replicates for condition A
         B:
-                B1,B2
+                B1,B2 # in this example B1 and B2 are biological replicates for condition B
 threads:
         "Number of threads to use"
 ref:
