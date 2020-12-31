@@ -7,11 +7,11 @@
 * Clone the repository:
   * `git clone https://github.com/davidecarlson/Snakemake_diff_gene_expr.git`
 * Use conda to install create a new environment with all the necessary software from the provided yaml file:
-  * `conda env create -f environment.yaml`
+  * `conda env create -f environment.yml`
   
 ### SETUP
   
-  * Edit the config.yaml file to provide information regarding your data and experiment:
+  * Edit the example_config.yaml file to provide information regarding your data and experiment:
     * path to the RNA-Seq reads
     * path to save the results
     * information regarding the experimental conditions and samples being used
