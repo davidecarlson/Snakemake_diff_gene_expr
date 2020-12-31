@@ -14,16 +14,18 @@ indir <- args[1]
 outdir <- args[2]
 #conditions <- args[3]
 control <- args[3]
+gtf <- args[4]
+samples_input <- args[5]
 
-#Make a transcript database object use the gencode31 GTF file. You will need to update this for your GTF file
-txdb <- makeTxDbFromGFF("/datahome/snakemake_workflows/data/GTFs/mus_musculus/gencode.vM22.annotation.gtf", "gtf", "gencode31")
+#Make a transcript database object use the gencode31 GTF file. GTF file location specified based on config file
+txdb <- makeTxDbFromGFF(gtf, "gtf", "gencode31")
 
 #Prepare a tx2gene dataframe to associate transcript names with gene names
 k <- keys(txdb, keytype="TXNAME")	
 tx2gene <- select(txdb, k, "GENEID", "TXNAME")
 
 # Read in sample-specific information from a previously generated table.  Currently must create this manually
-samples <- read.table("samples.txt", header = T)
+samples <- read.table(samples_input, header = T)
 #get list of salmon quant files and confirm they exist
 dir <- getwd()
 files <-file.path(indir, samples$Run, "quant.sf")
@@ -75,6 +77,11 @@ dev.off()
 report <- DESeq2Report(ddsTxi, project = 'DESeq2 HTML report',
     intgroup = c('Condition'), outdir = outdir,
     output = 'DESeq2_Report', theme = theme_bw())
+
+#report_pdf <- DESeq2Report(ddsTxi, project = 'DESeq2 PDF report', 
+#    intgroup = c('Condition'), outdir = outdir,
+#    output = 'DESeq2_Report', theme = theme_bw(), output_format = 'pdf_document',
+#    device = 'pdf')
     
 # save results to csv file
 write.csv(as.data.frame(resOrdered),file=paste(outdir, "DEseq2_results.csv",sep=""))

@@ -1,0 +1,40 @@
+import shutil
+
+configfile:
+	"example_config.yaml"
+print(config['data'])
+
+if config['gzipped_reads'] == "True":
+	gz=".gz"
+if config['gzipped_reads'] == "False":
+	gz=""
+
+if config['paired_reads'] == "True":
+	SAMPLES, = glob_wildcards(config['data']+"/{id}_R1.fastq"+gz)
+if config['paired_reads'] == "False":
+	SAMPLES, = glob_wildcards(config['data']+"/{id}.fastq"+gz)
+
+#SAMPLES, = glob_wildcards(config['data']+"/{id}_R1.fastq"+gz)
+print(SAMPLES)
+
+RESULTS = config['results_loc']
+print(RESULTS)
+
+onstart:
+	print("The samples used in this analysis are:"),
+	print(SAMPLES),
+	print("Running the differential gene expression (DGE) pipeline") 
+
+rule all:
+	input:
+		expand(config['results_loc'] + "/results/fastq_trimmed/{sample}.html", sample=SAMPLES),
+		expand(config['results_loc'] + "/results/salmon/{sample}", sample=SAMPLES),
+		config['results_loc'] + "/results/deseq2/DEseq2_results.RData"
+
+include:	"Snakemake_diff_gene_expr/rules/preprocess.smk"
+include:	"Snakemake_diff_gene_expr/rules/salmon.smk"
+include:	"Snakemake_diff_gene_expr/rules/deseq2.smk"
+
+onsuccess:
+	print("Differential Gene Expression analysis finished!")
+	shutil.rmtree(".snakemake")

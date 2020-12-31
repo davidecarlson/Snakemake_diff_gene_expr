@@ -1,0 +1,30 @@
+data:
+        "/location/of/RNA-seq/reads" # directory with fastq files
+
+results_loc:
+        "/location/to/save/results/" # directory where output will be saved
+
+threads:        
+        "Number of threads to use"
+
+species:
+        "human" # select "human", "mouse", or "neither" to choose the appropriate index for salmon
+
+index:
+        "/path/to/index" # set path to salmon genome index IF "neither" was chosen above
+
+gtf:
+        "/location/of/gtf/functional/annotations" # only need to specify if species is "neither"
+
+my_samples:
+        "/location/of/samples.txt" # path to tab-separated list of samples and their associated experimental condition. See "example_samples.txt". 
+
+gzipped_reads:
+        "True" #set to false if input fastq files are not gzipped
+
+paired_reads:
+        "False" # set to False if reads are single end
+
+control:
+        "WT" # name of condition from my_samples file that should act as control
+
