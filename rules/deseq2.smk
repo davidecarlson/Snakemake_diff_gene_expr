@@ -1,4 +1,3 @@
-#modify control for your specific experiment
 
 if config['species'] == "human":
 	ANNOTATION="/gpfs/projects/GenomicsCore/indexes/human_gencode_v36/gencode.v36.annotation.gtf"

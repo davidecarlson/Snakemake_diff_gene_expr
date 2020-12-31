@@ -29,11 +29,13 @@ rule all:
 	input:
 		expand(config['results_loc'] + "/results/fastq_trimmed/{sample}.html", sample=SAMPLES),
 		expand(config['results_loc'] + "/results/salmon/{sample}", sample=SAMPLES),
-		config['results_loc'] + "/results/deseq2/DEseq2_results.RData"
+		config['results_loc'] + "/results/deseq2/DEseq2_results.RData",
+		config['results_loc'] + "/results/deseq2/DEseq2_results_with_names.tsv"
 
-include:	"Snakemake_diff_gene_expr/rules/preprocess.smk"
-include:	"Snakemake_diff_gene_expr/rules/salmon.smk"
-include:	"Snakemake_diff_gene_expr/rules/deseq2.smk"
+include:	"rules/preprocess.smk"
+include:	"rules/salmon.smk"
+include:	"rules/deseq2.smk"
+include:	"rules/addnames.smk"
 
 onsuccess:
 	print("Differential Gene Expression analysis finished!")
