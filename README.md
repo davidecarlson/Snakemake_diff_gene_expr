@@ -1,7 +1,7 @@
 # Differential Gene Expression with Snakemake
 
 
-*This Snakemake pipeline uses Fastp to QC the reads, Salmon for transcript quantification, Tximport to convert from transcript abundance to gene abundance, and DEseq2 for differential gene expression.* 
+*This Snakemake workflow uses Fastp to QC the reads, Salmon for transcript quantification, Tximport to convert from transcript abundance to gene abundance, and DEseq2 for differential gene expression.* 
 
 ### INSTALLATION
 * Clone the repository:
