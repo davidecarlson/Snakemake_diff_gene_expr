@@ -3,6 +3,8 @@ library(readr)
 library(assertr)
 library(tximport)
 library(GenomicFeatures)
+library(AnnotationDbi)
+library(org.Mm.eg.db)
 library(DESeq2)
 library(ggplot2)
 library(regionReport)
@@ -17,8 +19,8 @@ control <- args[3]
 gtf <- args[4]
 samples_input <- args[5]
 
-#Make a transcript database object use the gencode31 GTF file. GTF file location specified based on config file
-txdb <- makeTxDbFromGFF(gtf, "gtf", "gencode31")
+#Make a transcript database object use the gencode35 GTF file. GTF file location specified based on config file
+txdb <- makeTxDbFromGFF(gtf, "gtf", "gencode35")
 
 #Prepare a tx2gene dataframe to associate transcript names with gene names
 k <- keys(txdb, keytype="TXNAME")	
@@ -37,6 +39,37 @@ txi <- tximport(files, type = "salmon", tx2gene = tx2gene, ignoreAfterBar=TRUE)
 
 # prepare for DESeq2
 ddsTxi <- DESeqDataSetFromTximport(txi,colData = samples,design = ~ Condition) # This design should be modified as needed to fit different experimental setups
+
+# get fpkm normalized results for each gene
+
+fpkm_res <- as.data.frame(fpkm(ddsTxi, robust = TRUE))
+
+# convert Ensembl IDs to gene name and symbols for fpkm results
+
+ens.str_fpkm <- substr(rownames(fpkm_res), 1, 18)
+
+print(ens.str_fpkm)
+print(typeof(fpkm_res))
+
+fpkm_res$geneName <- mapIds(org.Mm.eg.db,
+                     keys=ens.str_fpkm,
+                     column="GENENAME",
+                     keytype="ENSEMBL",
+                     multiVals="first")
+
+fpkm_res$symbol <- mapIds(org.Mm.eg.db,
+                     keys=ens.str_fpkm,
+                     column="SYMBOL",
+                     keytype="ENSEMBL",
+                     multiVals="first")
+
+#print(fpkm_res)
+
+# save fpkm results to output file
+
+write.csv(as.data.frame(fpkm_res),file=paste(outdir, "fpkm.csv",sep=""))
+
+# filter rows were total counts are less than 10
 keep <- rowSums(counts(ddsTxi)) >= 10
 ddsTxi <- ddsTxi[keep,]
 # specify which condition is the reference level or control
@@ -48,6 +81,26 @@ dds_names <- resultsNames(ddsTxi)
 print(dds_names)
 #get results - P-values automatically FDR adjusted with 0.1 alpha
 res <- results(ddsTxi)
+
+# add gene name and symbol to the results
+
+ens.str <- substr(rownames(res), 1, 18)
+
+#print(ens.str)
+
+res$geneName <- mapIds(org.Mm.eg.db,
+                     keys=ens.str,
+                     column="GENENAME",
+                     keytype="ENSEMBL",
+                     multiVals="first")
+
+res$symbol <- mapIds(org.Mm.eg.db,
+                     keys=ens.str,
+                     column="SYMBOL",
+                     keytype="ENSEMBL",
+                     multiVals="first")
+
+
 #reorder the results by smallest to largest p-value
 resOrdered <- res[order(res$pvalue),]
 

@@ -28,14 +28,13 @@ if config['paired_reads'] == "True":
 if config['paired_reads'] == "False":
 	rule fastp_se:
 		input:
-			reads=config['data']+"/{sample}.fastq"+gz
+			reads=config['data'] + "/{sample}.fastq"+gz
 		output:
-			reads=config['results_loc']+"/results/fastq_trimmed/{sample}.trimmed.fastq",
-			html=config['results_loc']+"/results/fastq_trimmed/{sample}.html",
-			json=config['results_loc']+"/results/fastq_trimmed/{sample}.json"
+			reads=config['results_loc'] + "/results/fastq_trimmed/{sample}.trimmed.fastq",
+			html=config['results_loc'] + "/results/fastq_trimmed/{sample}.html",
+			json=config['results_loc'] + "/results/fastq_trimmed/{sample}.json"
 		threads:	int(config['threads'])
-		log:    config['results_loc']+"/results/logs/{sample}/preprocess.log"
-		priority:	50
+		log:    config['results_loc'] + "/results/logs/{sample}/preprocess.log"
 		shell:
 			"fastp --in1 {input.reads} --out1 {output.reads} "
 			"--thread {threads} --cut_tail --html {output.html} --json {output.json} 2> {log}"

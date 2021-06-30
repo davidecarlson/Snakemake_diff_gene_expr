@@ -14,6 +14,7 @@ rule deseq2:
 		files=expand(config['results_loc']+"/results/salmon/{sample}",sample=SAMPLES)
 	output:
 		config['results_loc']+"/results/deseq2/DEseq2_results.RData",
+		config['results_loc']+"/results/deseq2/DEseq2_results.csv"
 	log:	config['results_loc']+"/results/logs/deseq2.log"
 	params:
 		indir=config['results_loc']+"/results/salmon",
